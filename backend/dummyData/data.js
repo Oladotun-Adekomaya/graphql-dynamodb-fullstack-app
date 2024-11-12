@@ -1,5 +1,5 @@
 // Hardcoded array of 5 users
-const users = [
+let users = [
 	{
 		_id: "1",
 		username: "user1",
