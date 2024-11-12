@@ -1,22 +1,22 @@
-import { CreateTableCommand, DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { CreateTableCommand, DynamoDBClient, PutItemCommand , ListTablesCommand} from "@aws-sdk/client-dynamodb";
 
-const client = new DynamoDBClient({});
+const client = new DynamoDBClient({endpoint: "http://localhost:8000"});
 
-export const main = async () => {
+const main = async () => {
   const command = new CreateTableCommand({
-    TableName: "EspressoDrinks",
+    TableName: "Users",
     // For more information about data types,
     // see https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes and
     // https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.LowLevelAPI.html#Programming.LowLevelAPI.DataTypeDescriptors
     AttributeDefinitions: [
       {
-        AttributeName: "DrinkName",
+        AttributeName: "Name",
         AttributeType: "S",
       },
     ],
     KeySchema: [
       {
-        AttributeName: "DrinkName",
+        AttributeName: "Name",
         KeyType: "HASH",
       },
     ],
@@ -30,4 +30,32 @@ export const main = async () => {
   console.log(response);
   return response;
 };
+
+// main()
+
+const input = {
+  "Item": {
+    "Name": {
+      "S": "Oladotun 2"
+    },
+    "Artist": {
+      "S": "No One You Know"
+    },
+    "SongTitle": {
+      "S": "Call Me Today"
+    }
+  },
+  "ReturnConsumedCapacity": "TOTAL",
+  "TableName": "Users"
+};
+const command = new PutItemCommand(input);
+const response = await client.send(command);
+
+// const command = new ListTablesCommand({});
+// const response = await client.send(command);
+
+console.log(response);
+
+
+
 
