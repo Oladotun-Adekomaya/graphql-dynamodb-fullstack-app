@@ -29,7 +29,7 @@ const server = new ApolloServer({
 await server.start();
 
 app.use('/graphql', cors(), express.json(), expressMiddleware(server, {
-    context: async ({ req }) => ({ token: req.headers.token }),
+    context: async ({ req }) => ({ req }),
 }));
 
 await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
