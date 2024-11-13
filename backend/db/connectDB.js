@@ -1,20 +1,8 @@
 import { CreateTableCommand, DynamoDBClient, PutItemCommand , ListTablesCommand} from "@aws-sdk/client-dynamodb";
 
-const client = new DynamoDBClient({endpoint: "http://localhost:8000"});
-const {createServer} = require('dynamodb-admin');
-
-const dynamodb = new AWS.DynamoDB();
+const client = new DynamoDBClient();
 
 
-const app = createServer(dynamodb, client);
-
-const host = 'localhost';
-const port = 8001;
-const server = app.listen(port, host);
-server.on('listening', () => {
-  const address = server.address();
-  console.log(`  listening on http://${address.address}:${address.port}`);
-});
 
 const main = async () => {
   const command = new CreateTableCommand({
